@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_4_WEEKLY_AUTOPILOT",
-  "current_step": "AUDIT_POSITIONS",
+  "current_step": "ACTION_SIGNAL",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -199,8 +199,46 @@
       "date": "2026-10-18",
       "macro_notes": "Same-day independent review of October 18 baseline, not a new weekly period. BTC.D 30d +2.82%, USDT.D 7d +1.80%, TOTAL3 about $773B; US CPI September 3.7% YoY, monetary policy restrictive, BTC spot ETF weekly net -$228.4M and ETH -$320.1M (Oct 12-16). No independently confirmed regime change; maintain prior macro score -35 DEFENSIVE_CASH pending next dated weekly review.",
       "research_status": "COMPLETED_SAME_DAY_BASELINE_REVIEW",
-      "positions_snapshot": null,
-      "verdict": null
+      "positions_snapshot": [
+        {
+          "symbol": "BTC",
+          "position_status": "PLANNED_BLOCKED_MACRO",
+          "filled_tranches": [],
+          "active_orders": [],
+          "filled_quantity": 0,
+          "invested_amount": 0,
+          "unrealized_pnl": 0
+        },
+        {
+          "symbol": "ETH",
+          "position_status": "PLANNED_BLOCKED_MACRO",
+          "filled_tranches": [],
+          "active_orders": [],
+          "filled_quantity": 0,
+          "invested_amount": 0,
+          "unrealized_pnl": 0
+        },
+        {
+          "symbol": "SOL",
+          "position_status": "PLANNED_BLOCKED_MACRO",
+          "filled_tranches": [],
+          "active_orders": [],
+          "filled_quantity": 0,
+          "invested_amount": 0,
+          "unrealized_pnl": 0
+        },
+        {
+          "symbol": "LINK",
+          "position_status": "PLANNED_BLOCKED_MACRO",
+          "filled_tranches": [],
+          "active_orders": [],
+          "filled_quantity": 0,
+          "invested_amount": 0,
+          "unrealized_pnl": 0
+        }
+      ],
+      "verdict": null,
+      "position_audit_notes": "User confirmed no real purchases and no active exchange orders. All tranches remain planned and blocked under DEFENSIVE_CASH. No PnL exists for unfilled positions."
     }
   ]
 }
