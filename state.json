@@ -1,13 +1,50 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_1_ONBOARDING",
-  "current_step": "CONFIRM_WATCHLIST",
+  "current_step": "CALCULATE_TRANCHES",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
     "currency": "USD",
     "risk_profile": "balanced",
-    "allocations": [],
+    "allocations": [
+      {
+        "symbol": "BTC",
+        "layer": "core",
+        "weight_pct": 30,
+        "amount": 300
+      },
+      {
+        "symbol": "ETH",
+        "layer": "core",
+        "weight_pct": 20,
+        "amount": 200
+      },
+      {
+        "symbol": "SOL",
+        "layer": "growth",
+        "weight_pct": 10,
+        "amount": 100
+      },
+      {
+        "symbol": "LINK",
+        "layer": "growth",
+        "weight_pct": 10,
+        "amount": 100
+      },
+      {
+        "symbol": "USDT",
+        "layer": "reserve",
+        "weight_pct": 15,
+        "amount": 150
+      },
+      {
+        "symbol": "USDC",
+        "layer": "reserve",
+        "weight_pct": 15,
+        "amount": 150
+      }
+    ],
     "entry_tranches": {
       "tranche_1_pct": 30,
       "tranche_2_pct": 40,
