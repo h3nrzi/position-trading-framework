@@ -1,0 +1,59 @@
+{
+  "id": "iran_rial",
+  "name": "Iran Rial Market (بازار ریالی / طلا و درآمد ثابت ایران)",
+  "default_currency": "IRR",
+  "display_unit": "تومان",
+  "description": "استراتژی پوزیشن تریدینگ در بازار طلا، گواهی شمش و ابزارهای مالی ریالی با مدیریت ریسک ارزی",
+  "layers": {
+    "core": {
+      "target_percentage": 50,
+      "description": "ستون فقرات پورتفوی جهت حفظ قدرت خرید و همگامی با تورم ارزی",
+      "assets": [
+        {
+          "symbol": "GOLD_DEP_CERT",
+          "name": "گواهی سپرده شمش طلا (بورس کالا)",
+          "weight_pct": 50
+        }
+      ]
+    },
+    "growth": {
+      "target_percentage": 20,
+      "description": "ابزارهای با اهرم روانی یا نقدشوندگی بالا جهت بازدهی افزون",
+      "assets": [
+        {
+          "symbol": "GOLD_ETF",
+          "name": "صندوق‌های سرمایه‌گذاری پشتوانه طلا (Gold ETFs)",
+          "weight_pct": 20
+        }
+      ]
+    },
+    "reserve": {
+      "target_percentage": 30,
+      "description": "بخش کم‌ریسک و سود روزشمار جهت کمین و خرید در اصلاحات قیمتی",
+      "assets": [
+        {
+          "symbol": "FIXED_INCOME_ETF",
+          "name": "صندوق درآمد ثابت (Fixed Income)",
+          "weight_pct": 30
+        }
+      ]
+    }
+  },
+  "macro_indicators": [
+    {
+      "id": "USD_FREE",
+      "name": "نرخ دلار آزاد",
+      "description": "محرک اصلی تورم انتظاری و قیمت ریالی کلیه ابزارهای سرمایه‌گذاری"
+    },
+    {
+      "id": "GOLD_ETF_BUBBLE",
+      "name": "حباب صندوق‌های طلا",
+      "description": "درصد اختلاف قیمت بازاری واحدهای صندوق نسبت به NAV ابطال (معیار سنجش طمع و هراس)"
+    },
+    {
+      "id": "GLOBAL_GOLD",
+      "name": "انس جهانی طلا (XAUUSD)",
+      "description": "پایه ارزش بین‌المللی طلا و سوخت دوم ارزش‌گذاری گواهی و صندوق‌ها"
+    }
+  ]
+}

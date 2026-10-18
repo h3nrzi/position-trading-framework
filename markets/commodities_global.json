@@ -1,0 +1,63 @@
+{
+  "id": "commodities_global",
+  "name": "Global Commodities (کامودیتی‌های جهانی)",
+  "default_currency": "USD",
+  "description": "استراتژی پوزیشن تریدینگ در بازار کالاهای اساسی و کامودیتی‌های جهانی با اتکا به متغیرهای کلان",
+  "layers": {
+    "core": {
+      "target_percentage": 50,
+      "description": "پناهگاه امن کلان و ذخیره ارزش اصلی",
+      "assets": [
+        {
+          "symbol": "XAUUSD",
+          "name": "Gold (طلا)",
+          "weight_pct": 50
+        }
+      ]
+    },
+    "growth": {
+      "target_percentage": 20,
+      "description": "کالاهای با بتا و نوسان بالاتر جهت بهره‌برداری از چرخه‌های اقتصادی",
+      "assets": [
+        {
+          "symbol": "WTI",
+          "name": "Crude Oil WTI (نفت خام)",
+          "weight_pct": 10
+        },
+        {
+          "symbol": "XAGUSD",
+          "name": "Silver (نقره)",
+          "weight_pct": 10
+        }
+      ]
+    },
+    "reserve": {
+      "target_percentage": 30,
+      "description": "وجه نقد دلاری یا اوراق کوتاه‌مدت خزانه جهت ورود مجدد در اصلاحات",
+      "assets": [
+        {
+          "symbol": "USD_CASH",
+          "name": "US Dollar / Cash Yield Reserve",
+          "weight_pct": 30
+        }
+      ]
+    }
+  },
+  "macro_indicators": [
+    {
+      "id": "DXY",
+      "name": "US Dollar Index",
+      "description": "شاخص دلار آمریکا و فشار معکوس بر قیمت کامودیتی‌ها"
+    },
+    {
+      "id": "US10Y",
+      "name": "US 10-Year Treasury Yield",
+      "description": "بازده اوراق ده‌ساله خزانه‌داری آمریکا و نرخ بهره واقعی"
+    },
+    {
+      "id": "EIA_INVENTORY",
+      "name": "EIA Crude Oil Inventory",
+      "description": "گزارش هفتگی تغییرات ذخایر نفت خام آمریکا و تعادل عرضه/تقاضای انرژی"
+    }
+  ]
+}

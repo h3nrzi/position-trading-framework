@@ -1,0 +1,73 @@
+{
+  "id": "crypto_spot",
+  "name": "Crypto Spot (کریپتو اسپات)",
+  "default_currency": "USD",
+  "description": "استراتژی معاملاتی پوزیشن تریدینگ در بازار اسپات رمزارزها با ساختار ۳ لایه",
+  "layers": {
+    "core": {
+      "target_percentage": 50,
+      "description": "دارایی‌های با ثبات و رهبران بازار (Blue Chips)",
+      "assets": [
+        {
+          "symbol": "BTC",
+          "name": "Bitcoin",
+          "weight_pct": 30
+        },
+        {
+          "symbol": "ETH",
+          "name": "Ethereum",
+          "weight_pct": 20
+        }
+      ]
+    },
+    "growth": {
+      "target_percentage": 20,
+      "description": "پروژه‌های با پتانسیل رشد بالا و ریسک محاسبه‌شده",
+      "assets": [
+        {
+          "symbol": "SOL",
+          "name": "Solana",
+          "weight_pct": 10
+        },
+        {
+          "symbol": "LINK",
+          "name": "Chainlink",
+          "weight_pct": 10
+        }
+      ]
+    },
+    "reserve": {
+      "target_percentage": 30,
+      "description": "نقدینگی استیبل‌کوین جهت خرید پله‌ای در اصلاحات سنگین",
+      "assets": [
+        {
+          "symbol": "USDT",
+          "name": "Tether",
+          "weight_pct": 15
+        },
+        {
+          "symbol": "USDC",
+          "name": "USD Coin",
+          "weight_pct": 15
+        }
+      ]
+    }
+  },
+  "macro_indicators": [
+    {
+      "id": "BTC.D",
+      "name": "Bitcoin Dominance",
+      "description": "سهم ارزش بازار بیت‌کوین از کل مارکت کریپتو"
+    },
+    {
+      "id": "USDT.D",
+      "name": "Tether Dominance",
+      "description": "شاخص نقدینگی در حاشیه مارکت و میزان احتیاط فعالان"
+    },
+    {
+      "id": "TOTAL3",
+      "name": "Altcoin Market Cap (Excl BTC & ETH)",
+      "description": "ارزش کل آلت‌کوین‌ها و میزان تمایل به ریسک در بازار"
+    }
+  ]
+}
