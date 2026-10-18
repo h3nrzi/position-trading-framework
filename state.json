@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_3_TECHNICAL_LEVELS",
-  "current_step": "CALCULATE_LIMIT_ORDERS",
+  "current_step": "SET_INVALIDATION",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
