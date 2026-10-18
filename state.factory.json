@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "current_phase": "PHASE_1_ONBOARDING",
+  "current_step": "SELECT_MARKET",
+  "active_market": null,
+  "portfolio": {
+    "total_budget": 0,
+    "currency": "USD",
+    "risk_profile": "balanced",
+    "allocations": [],
+    "entry_tranches": {
+      "tranche_1_pct": 30,
+      "tranche_2_pct": 40,
+      "tranche_3_pct": 30
+    }
+  },
+  "macro_score": {
+    "last_updated": null,
+    "total_score": 0,
+    "verdict": null
+  },
+  "positions": [],
+  "weekly_logs": []
+}
