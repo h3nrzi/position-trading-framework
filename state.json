@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_2_MACRO_DEEP_SEARCH",
-  "current_step": "INPUT_FINDINGS",
+  "current_step": "SCORE_MACRO",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
