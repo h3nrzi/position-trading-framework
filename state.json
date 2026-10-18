@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "current_phase": "PHASE_2_MACRO_DEEP_SEARCH",
-  "current_step": "SCORE_MACRO",
+  "current_phase": "PHASE_3_TECHNICAL_LEVELS",
+  "current_step": "INPUT_CHART_METRICS",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -52,9 +52,9 @@
     }
   },
   "macro_score": {
-    "last_updated": null,
-    "total_score": 0,
-    "verdict": null
+    "last_updated": "2026-10-18",
+    "total_score": -35,
+    "verdict": "DEFENSIVE_CASH"
   },
   "positions": [],
   "weekly_logs": []
