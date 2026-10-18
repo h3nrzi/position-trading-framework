@@ -188,12 +188,14 @@ class Phase3Tests(unittest.TestCase):
     def test_legacy_completed_and_partial_records_keep_confirmed_results(self):
         state = complete(fixture(), "BTC")
         del state["positions"][0]["phase3"]
+        state["positions"][0]["status"] = "PLANNED_BLOCKED_MACRO"
         legacy = copy.deepcopy(state["positions"][0])
         state = complete(state, "ETH")
         self.assertEqual(state["positions"][0], legacy)
         self.assertEqual(phase3.route(state)["remaining"], ["SOL", "LINK"])
         draft = through_orders(fixture(), "BTC")
         del draft["positions"][0]["phase3"]
+        draft["positions"][0]["status"] = "PLANNING"
         draft["current_step"] = phase3.INVALIDATION
         resumed = phase3.transition(draft)
         self.assertEqual(resumed["current_step"], phase3.ORDERS)
@@ -271,7 +273,7 @@ class Phase3Tests(unittest.TestCase):
                 self.assertEqual([t["status"] == "PLANNED_BLOCKED_MACRO" for t in position["tranches"]], blocked)
                 self.assertEqual([t["pct"] for t in position["tranches"]], [30, 40, 30])
                 self.assertEqual([t["amount"] for t in position["tranches"]], [90, 120, 90])
-                self.assertAlmostEqual(position["average_entry"], 300 / (90 / 90 + 120 / 80 + 90 / 60))
+                self.assertAlmostEqual(position["potential_average_entry"], 300 / (90 / 90 + 120 / 80 + 90 / 60))
         state = through_orders(fixture(1), "BTC")
         state["macro_score"].update(total_score=80, verdict="BULLISH_AGGRESSIVE")
         state = phase3.transition(state, "propose-invalidation", symbol="BTC", payload=INVALIDATION)

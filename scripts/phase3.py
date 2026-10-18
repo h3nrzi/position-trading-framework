@@ -12,6 +12,11 @@ from pathlib import Path
 import stat
 import tempfile
 
+try:
+    from scripts import status_contract as contract
+except ModuleNotFoundError:  # Direct CLI invocation from any working directory.
+    import status_contract as contract
+
 
 PHASE = "PHASE_3_TECHNICAL_LEVELS"
 PHASE4 = "PHASE_4_WEEKLY_AUTOPILOT"
@@ -45,6 +50,7 @@ def has_invalidation(position):
 
 def progress(position):
     """New checkpoints are authoritative; legacy final records remain untouched."""
+    contract.validate_position(position)
     if "phase3" in position:
         step = position["phase3"]["step"]
         if step not in STEPS:
@@ -54,16 +60,16 @@ def progress(position):
         if step == COMPLETE and not has_invalidation(position):
             raise ValueError("Completed checkpoint lacks invalidation.")
         if step != COMPLETE and any(t.get("status") not in
-                {"PENDING", "PLANNED_BLOCKED_MACRO"} for t in position.get("tranches", [])):
+                {"PLANNED", "PENDING", "PLANNED_BLOCKED_MACRO"} for t in position.get("tranches", [])):
             raise ValueError("Existing execution record cannot be rewritten in Phase 3.")
         return step
     if position.get("status") in LEGACY_FINAL:
         if has_plan(position) and has_invalidation(position):
             return COMPLETE
         raise ValueError("Ambiguous legacy final record; clarify its approvals first.")
-    if position.get("status", "PLANNING") != "PLANNING":
+    if position.get("status", "PLANNING") not in {"PLANNING", "PLAN_DRAFT"}:
         raise ValueError("Existing execution record cannot be rewritten in Phase 3.")
-    if any(t.get("status") not in {"PENDING", "PLANNED_BLOCKED_MACRO"}
+    if any(t.get("status") not in {"PLANNED", "PENDING", "PLANNED_BLOCKED_MACRO"}
            for t in position.get("tranches", [])):
         raise ValueError("Existing execution record cannot be rewritten in Phase 3.")
     return ORDERS if has_plan(position) else INPUT
@@ -98,8 +104,8 @@ def route(state):
     return {"symbol": symbol, "step": step if symbol else None, "remaining": remaining}
 
 
-def execution_statuses(state):
-    """Apply the existing macro permission limits without changing the score."""
+def plan_statuses(state):
+    """Apply macro permissions to hypothetical tranches, never to execution."""
     macro = state["macro_score"]
     score = macro.get("total_score")
     if (not isinstance(score, (int, float)) or isinstance(score, bool)
@@ -109,8 +115,8 @@ def execution_statuses(state):
     if score < -20 or macro["verdict"] == "DEFENSIVE_CASH":
         return ["PLANNED_BLOCKED_MACRO"] * 3
     if score < 60 or macro["verdict"] == "NEUTRAL_ACCUMULATION":
-        return ["PENDING", "PENDING", "PLANNED_BLOCKED_MACRO"]
-    return ["PENDING"] * 3
+        return ["PLANNED", "PLANNED", "PLANNED_BLOCKED_MACRO"]
+    return ["PLANNED"] * 3
 
 
 def sync_route(state):
@@ -140,6 +146,9 @@ def transition(source, action="resume", *, symbol=None, payload=None, approved=F
         raise ValueError("Phase 3 is not active.")
 
     current = route(state)
+    if any(any("execution" in t for t in p.get("tranches", []))
+           for p in state["positions"] if p["symbol"] in current["remaining"]):
+        raise ValueError("Existing execution record cannot be rewritten in Phase 3.")
     if action == "resume":
         sync_route(state)
         return state
@@ -167,7 +176,7 @@ def transition(source, action="resume", *, symbol=None, payload=None, approved=F
     asset = next(a for a in eligible if a["symbol"] == symbol)
     if position is None:
         position = {"symbol": symbol, "layer": asset["layer"],
-                    "allocated_budget": asset["amount"], "status": "PLANNING"}
+                    "allocated_budget": asset["amount"], "status": "PLAN_DRAFT"}
         state["positions"].append(position)
     checkpoint = position.setdefault("phase3", {"step": current["step"]})
 
@@ -179,14 +188,15 @@ def transition(source, action="resume", *, symbol=None, payload=None, approved=F
         percentages = [state["portfolio"]["entry_tranches"][f"tranche_{n}_pct"] for n in (1, 2, 3)]
         if not all(positive(p) for p in percentages) or not math.isclose(sum(percentages), 100):
             raise ValueError("Persisted tranche percentages must total 100.")
-        statuses = execution_statuses(state)
+        statuses = plan_statuses(state)
+        position["status"] = "PLAN_DRAFT"
         position["current_price_reference"] = payload["current_price"]
         position["tranches"] = [
             {"tranche": n, "pct": pct, "price": payload[key],
              "amount": asset["amount"] * pct / 100, "status": status}
             for n, pct, key, status in zip((1, 2, 3), percentages, names[1:], statuses)
         ]
-        position["average_entry"] = asset["amount"] / sum(
+        position["potential_average_entry"] = asset["amount"] / sum(
             t["amount"] / t["price"] for t in position["tranches"])
         checkpoint["step"] = ORDERS
     elif action == "approve-orders":
@@ -206,26 +216,30 @@ def transition(source, action="resume", *, symbol=None, payload=None, approved=F
             raise ValueError("Display and persist an invalidation proposal before approval.")
         position["invalidation_price"] = proposal["price"]
         position["invalidation_condition"] = proposal["condition"]
-        statuses = execution_statuses(state)
+        statuses = plan_statuses(state)
         for tranche, status in zip(position["tranches"], statuses):
             # Never lift a previously persisted macro block during routing.
             if tranche["status"] != "PLANNED_BLOCKED_MACRO":
                 tranche["status"] = status
-        position["status"] = ("PLANNED_BLOCKED_MACRO" if all(
-            t["status"] == "PLANNED_BLOCKED_MACRO" for t in position["tranches"])
-            else "ACTIVE_PENDING_ORDERS")
+        position["status"] = "PLAN_CONFIRMED"
         checkpoint["step"] = COMPLETE
+    contract.validate_position(position)
     sync_route(state)
     return state
 
 
 def update_file(destination, action="resume", **kwargs):
     """Publish result and routing together; failures leave the old JSON intact."""
+    return persist(destination, lambda source: transition(source, action, **kwargs))
+
+
+def persist(destination, transform):
+    """Shared single-writer atomic persistence for local plan/execution reports."""
     destination = Path(destination).resolve(strict=True)
     if destination == Path(__file__).resolve().parents[1] / "state.factory.json":
         raise ValueError("The factory snapshot cannot be changed.")
     original = destination.read_bytes()
-    state = transition(json.loads(original), action, **kwargs)
+    state = transform(json.loads(original))
     data = (json.dumps(state, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode()
     if state == json.loads(original):
         return state
