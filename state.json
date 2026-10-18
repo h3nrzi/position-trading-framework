@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_3_TECHNICAL_LEVELS",
-  "current_step": "INPUT_CHART_METRICS",
+  "current_step": "CALCULATE_LIMIT_ORDERS",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -56,6 +56,40 @@
     "total_score": -35,
     "verdict": "DEFENSIVE_CASH"
   },
-  "positions": [],
+  "positions": [
+    {
+      "symbol": "BTC",
+      "layer": "core",
+      "allocated_budget": 300,
+      "current_price_reference": 82031.9,
+      "price_reference_date": "2026-10-18",
+      "tranches": [
+        {
+          "tranche": 1,
+          "pct": 30,
+          "price": 79500,
+          "amount": 90,
+          "status": "PLANNED_BLOCKED_MACRO"
+        },
+        {
+          "tranche": 2,
+          "pct": 40,
+          "price": 74000,
+          "amount": 120,
+          "status": "PLANNED_BLOCKED_MACRO"
+        },
+        {
+          "tranche": 3,
+          "pct": 30,
+          "price": 60000,
+          "amount": 90,
+          "status": "PLANNED_BLOCKED_MACRO"
+        }
+      ],
+      "average_entry": 70526.88365401907,
+      "invalidation_price": null,
+      "status": "PLANNING"
+    }
+  ],
   "weekly_logs": []
 }
