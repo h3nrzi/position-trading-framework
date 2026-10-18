@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_1_ONBOARDING",
-  "current_step": "SELECT_MARKET",
-  "active_market": null,
+  "current_step": "SET_BUDGET",
+  "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 0,
     "currency": "USD",
