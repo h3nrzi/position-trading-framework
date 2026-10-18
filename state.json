@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_4_WEEKLY_AUTOPILOT",
-  "current_step": "ACTION_SIGNAL",
+  "current_step": "WEEKLY_DEEP_SEARCH",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -237,8 +237,12 @@
           "unrealized_pnl": 0
         }
       ],
-      "verdict": null,
-      "position_audit_notes": "User confirmed no real purchases and no active exchange orders. All tranches remain planned and blocked under DEFENSIVE_CASH. No PnL exists for unfilled positions."
+      "verdict": "HOLD",
+      "position_audit_notes": "User confirmed no real purchases and no active exchange orders. All tranches remain planned and blocked under DEFENSIVE_CASH. No PnL exists for unfilled positions.",
+      "portfolio_health_status": "DEFENSIVE_CASH_NO_OPEN_POSITIONS",
+      "strategic_note": "Keep all planned tranches inactive under macro score -35. No filled positions or live orders. Re-evaluate macro regime and technical levels with fresh observations in next weekly review.",
+      "next_review_date": "2026-10-25",
+      "status": "FINALIZED"
     }
   ]
 }
