@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_3_TECHNICAL_LEVELS",
-  "current_step": "SET_INVALIDATION",
+  "current_step": "INPUT_CHART_METRICS",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -87,8 +87,9 @@
         }
       ],
       "average_entry": 70526.88365401907,
-      "invalidation_price": null,
-      "status": "PLANNING"
+      "invalidation_price": 57600,
+      "status": "PLANNED_BLOCKED_MACRO",
+      "invalidation_condition": "WEEKLY_CLOSE_BELOW"
     }
   ],
   "weekly_logs": []
