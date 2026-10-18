@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "current_phase": "PHASE_3_TECHNICAL_LEVELS",
-  "current_step": "INPUT_CHART_METRICS",
+  "current_step": "CALCULATE_LIMIT_ORDERS",
   "active_market": "crypto_spot",
   "portfolio": {
     "total_budget": 1000,
@@ -90,6 +90,39 @@
       "invalidation_price": 57600,
       "status": "PLANNED_BLOCKED_MACRO",
       "invalidation_condition": "WEEKLY_CLOSE_BELOW"
+    },
+    {
+      "symbol": "ETH",
+      "layer": "core",
+      "allocated_budget": 200,
+      "current_price_reference": 2419.12,
+      "price_reference_date": "2026-10-18",
+      "tranches": [
+        {
+          "tranche": 1,
+          "pct": 30,
+          "price": 2320,
+          "amount": 60,
+          "status": "PLANNED_BLOCKED_MACRO"
+        },
+        {
+          "tranche": 2,
+          "pct": 40,
+          "price": 1900,
+          "amount": 80,
+          "status": "PLANNED_BLOCKED_MACRO"
+        },
+        {
+          "tranche": 3,
+          "pct": 30,
+          "price": 1550,
+          "amount": 60,
+          "status": "PLANNED_BLOCKED_MACRO"
+        }
+      ],
+      "average_entry": 1874.8182092582938,
+      "invalidation_price": null,
+      "status": "PLANNING"
     }
   ],
   "weekly_logs": []
